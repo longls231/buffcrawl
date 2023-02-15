@@ -6,8 +6,8 @@ const log = (message) => {
     console.info(`--- ${message} ---`);
 }
 
-const timeout = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
+const timeout = () => {
+    return new Promise(resolve => setTimeout(resolve, CONST.TIME_OUT));
 }
 
 const fillItemsPrice = async () => {
@@ -19,15 +19,16 @@ const fillItemsPrice = async () => {
             const { items, total_page } = response.data.data;
             _item = [..._item, ...items];
             log(_item.length);
-            const responseSubPage = await axios.get(`${CONST.BUFF.API.CSGO}&page_num=${i + 1}&_=${new Date().getTime()}`, CONST.BUFF.HEADERS);
+            for (let i = 1; i < total_page; i++) {
+                const responseSubPage = await axios.get(`${CONST.BUFF.API.CSGO}&page_num=${i + 1}&_=${new Date().getTime()}`, CONST.BUFF.HEADERS);
             if (responseSubPage.status === 200 && responseSubPage.data.code === 'OK') {
                 _item = [..._item, ...responseSubPage.data.data.items];
                 log(_item.length);
             } else {
                 throw new Error("Cannot fetch data");
             }
-            await timeout(3000);
-
+            await timeout();
+            }
         }
 
         fs.writeFileSync(CONST.BUFF.DB_FILE, JSON.stringify(_item));

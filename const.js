@@ -1,11 +1,12 @@
 ﻿const path = require('path');
 
+const EMPIRE_COOKIE = '_';
+const BUFF_COOKIE = '';
 
-const BUFF_COOKIE = ''; // Cookie của Buff
-
-exports.BUFF_COOKIE = BUFF_COOKIE;
-
+const UUID = '';
+const TIME_OUT = 3000;
 exports.CONST = {
+    TIME_OUT,
     BUFF: {
         HEADERS: {
             headers: {
@@ -29,6 +30,25 @@ exports.CONST = {
         API: {
             CSGO: 'https://buff.163.com/api/market/goods?game=csgo&page_size=80&sort_by=price.desc'
         },
-        DB_FILE: path.resolve(__dirname, 'buffcrawl.json'),
+        DB_FILE: path.resolve(__dirname, 'buffcrawl.json')
     },
+    EMPIRE: {
+        HEADERS: {
+            'headers': {
+                'authority': 'csgoempire.com',
+                'accept': 'application/json, text/plain, */*',
+                'accept-language': 'vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7',
+                'cache-control': 'no-cache',
+                'cookie': EMPIRE_COOKIE,
+                'pragma': 'no-cache',
+                'referer': 'https://csgoempire.com/withdraw',
+                'sec-fetch-dest': 'empty',
+                'sec-fetch-mode': 'cors',
+                'sec-fetch-site': 'same-origin',
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36',
+                'x-empire-device-identifier': UUID
+            }
+        },
+        DB_FILE: path.resolve(__dirname, 'empirecrawl.json')
+    }
 }
